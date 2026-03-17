@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Aircraft {
+  id           Int       @id @default(autoincrement())
+  registration String    @unique
+  aircraftType String
+  engine       String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  entries      LogEntry[]
+}
+
+model TaskType {
+  id          Int       @id @default(autoincrement())
+  code        String    @unique
+  name        String
+  description String?
+  createdAt   DateTime  @default(now())
+  entries     LogEntry[]
+}
+
+model LicenceCategory {
+  id        Int       @id @default(autoincrement())
+  code      String    @unique
+  name      String
+  createdAt DateTime  @default(now())
+  entries   LogEntry[]
+}
+
+model LogEntry {
+  id                Int             @id @default(autoincrement())
+  date              DateTime
+  aircraftId        Int
+  aircraft          Aircraft        @relation(fields: [aircraftId], references: [id])
+  ata               String
+  taskTypeId        Int
+  taskType          TaskType        @relation(fields: [taskTypeId], references: [id])
+  taskDescription   String
+  workType          String
+  licenceCategoryId Int
+  licenceCategory   LicenceCategory @relation(fields: [licenceCategoryId], references: [id])
+  durationHours     Float
+  workorder         String?
+  verifiedBy        String?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@index([date])
+  @@index([aircraftId])
+  @@index([taskTypeId])
+  @@index([licenceCategoryId])
+}
