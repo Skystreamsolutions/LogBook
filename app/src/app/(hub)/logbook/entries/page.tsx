@@ -1,9 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import LogbookClient from "./LogbookClient";
+import LogbookClient from "../LogbookClient";
 
 export const dynamic = "force-dynamic";
 
-export default async function LogbookPage() {
+export default async function LogbookEntriesPage() {
   const [aircraft, taskTypes, licenceCategories] = await Promise.all([
     prisma.aircraft.findMany({ orderBy: { registration: "asc" } }),
     prisma.taskType.findMany({ orderBy: { code: "asc" } }),

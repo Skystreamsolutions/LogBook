@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { Plane, Clock, Wrench, Shield } from "lucide-react";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -58,16 +59,24 @@ async function getStats() {
   };
 }
 
-export default async function DashboardPage() {
+export default async function LogbookDashboardPage() {
   const stats = await getStats();
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-slate-800">Dashboard</h1>
-        <p className="text-slate-500 mt-1">
-          Aircraft Maintenance Engineer Experience - Patrik Gonda
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-800">AME LogBook</h1>
+          <p className="text-slate-500 mt-1">
+            Aircraft Maintenance Engineer Experience - Patrik Gonda
+          </p>
+        </div>
+        <Link
+          href="/logbook/entries"
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          Zobraziť záznamy
+        </Link>
       </div>
 
       {/* Stats Cards */}
@@ -152,9 +161,7 @@ export default async function DashboardPage() {
                       {item.aircraft?.registration} -{" "}
                       {item.aircraft?.aircraftType}
                     </span>
-                    <span className="text-slate-500">
-                      {hours.toFixed(1)} h
-                    </span>
+                    <span className="text-slate-500">{hours.toFixed(1)} h</span>
                   </div>
                   <div className="w-full bg-gray-100 rounded-full h-2.5">
                     <div
@@ -187,9 +194,7 @@ export default async function DashboardPage() {
                     <span className="font-medium">
                       {item.taskType?.code} - {item.taskType?.name}
                     </span>
-                    <span className="text-slate-500">
-                      {hours.toFixed(1)} h
-                    </span>
+                    <span className="text-slate-500">{hours.toFixed(1)} h</span>
                   </div>
                   <div className="w-full bg-gray-100 rounded-full h-2.5">
                     <div
