@@ -1,6 +1,15 @@
 # Pre-commit hooky (D1, karta t_8dd15d90). Rýchle kontroly pred každým commitom.
 # Inštalácia raz na klon:  uv tool install pre-commit && pre-commit install
-# Ručne na všetko:         pre-commit run --all-files
+# Ručne spustiť hooky:     pre-commit run --all-files
+#   Rozsah: check-merge-conflict, check-added-large-files a detect-private-key
+#   s --all-files skontrolujú všetky sledované súbory. Hook gitleaks však
+#   (pripnutá definícia) beží ako `gitleaks git --pre-commit --staged`
+#   s pass_filenames: false, takže aj pri --all-files kontroluje len zmeny
+#   pripravené v indexe (staged). Už commitnuté tajomstvá nepreverí a pri
+#   prázdnom indexe neskontroluje nič.
+# RUČNÁ KONTROLA TAJOMSTIEV (mimo pre-commit, z koreňa repozitára):
+#   gitleaks git --redact      celá git história (všetky commity)
+#   gitleaks dir --redact .    aktuálne súbory na disku (aj necommitnuté)
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # v6.0.0
